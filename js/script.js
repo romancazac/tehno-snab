@@ -47,20 +47,12 @@ const headerMenu = document.querySelector('.nav__list');
         headeBurger.classList.toggle('active');
         headerMenu.classList.toggle('active');
 });
-// Dynamic Adapt v.1
-// HTML data-da="where(uniq class name),position(digi),when(breakpoint)"
-// e.x. data-da="item,2,992"
-// Andrikanych Yevhen 2020
-// https://www.youtube.com/c/freelancerlifestyle
-
-"use strict";
 
 (function () {
 	let originalPositions = [];
 	let daElements = document.querySelectorAll('[data-da]');
 	let daElementsArray = [];
 	let daMatchMedia = [];
-	//Заполняем массивы
 	if (daElements.length > 0) {
 		let number = 0;
 		for (let index = 0; index < daElements.length; index++) {
@@ -74,12 +66,10 @@ const headerMenu = document.querySelector('.nav__list');
 				const daDestination = document.querySelector('.' + daArray[0].trim())
 				if (daArray.length > 0 && daDestination) {
 					daElement.setAttribute('data-da-index', number);
-					//Заполняем массив первоначальных позиций
 					originalPositions[number] = {
 						"parent": daElement.parentNode,
 						"index": indexInParent(daElement)
 					};
-					//Заполняем массив элементов 
 					daElementsArray[number] = {
 						"element": daElement,
 						"destination": document.querySelector('.' + daArray[0].trim()),
@@ -92,8 +82,6 @@ const headerMenu = document.querySelector('.nav__list');
 			}
 		}
 		dynamicAdaptSort(daElementsArray);
-
-		//Создаем события в точке брейкпоинта
 		for (let index = 0; index < daElementsArray.length; index++) {
 			const el = daElementsArray[index];
 			const daBreakpoint = el.breakpoint;
@@ -103,7 +91,6 @@ const headerMenu = document.querySelector('.nav__list');
 			daMatchMedia[index].addListener(dynamicAdapt);
 		}
 	}
-	//Основная функция
 	function dynamicAdapt(e) {
 		for (let index = 0; index < daElementsArray.length; index++) {
 			const el = daElementsArray[index];
@@ -136,10 +123,7 @@ const headerMenu = document.querySelector('.nav__list');
 		customAdapt();
 	}
 
-	//Вызов основной функции
 	dynamicAdapt();
-
-	//Функция возврата на место
 	function dynamicAdaptBack(el) {
 		const daIndex = el.getAttribute('data-da-index');
 		const originalPlace = originalPositions[daIndex];
@@ -148,12 +132,10 @@ const headerMenu = document.querySelector('.nav__list');
 		const actualIndex = indexOfElements(parentPlace, true)[indexPlace];
 		parentPlace.insertBefore(el, parentPlace.children[actualIndex]);
 	}
-	//Функция получения индекса внутри родителя
 	function indexInParent(el) {
 		var children = Array.prototype.slice.call(el.parentNode.children);
 		return children.indexOf(el);
 	}
-	//Функция получения массива индексов элементов внутри родителя 
 	function indexOfElements(parent, back) {
 		const children = parent.children;
 		const childrenArray = [];
@@ -162,7 +144,6 @@ const headerMenu = document.querySelector('.nav__list');
 			if (back) {
 				childrenArray.push(i);
 			} else {
-				//Исключая перенесенный элемент
 				if (childrenElement.getAttribute('data-da') == null) {
 					childrenArray.push(i);
 				}
@@ -179,7 +160,6 @@ const headerMenu = document.querySelector('.nav__list');
 			if (a.place > b.place) { return 1 } else { return -1 }
 		});
 	}
-	//Дополнительные сценарии адаптации
 	function customAdapt() {
 		//const viewport_width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 	}
